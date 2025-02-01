@@ -21,3 +21,5 @@ qa = RetrievalQA.from_chain_type(llm=OpenAI(), retriever=vector_store.as_retriev
 # Test RAG pipeline
 query = "What is this document about?"
 print(qa.run(query))
+
+#test
