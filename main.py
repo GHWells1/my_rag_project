@@ -4,6 +4,24 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
+import os
+from dotenv import load_dotenv
+from langchain_openai import OpenAIEmbeddings
+import time
+
+max_retries = 5
+retry_delay = 10  # seconds
+
+for attempt in range(max_retries):
+    try:
+        embeddings = OpenAIEmbeddings(api_key="your-api-key-here")
+        # Your code to create vector store and other logic here
+        break
+    except openai.error.RateLimitError as e:
+        print(f"Rate limit error: {e}. Retrying in {retry_delay} seconds...")
+        time.sleep(retry_delay)
+
+
 
 # Load and split documents
 loader = TextLoader("example.txt")  # Ensure this file exists
