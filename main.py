@@ -9,18 +9,13 @@ from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
 import time
 
-max_retries = 5
-retry_delay = 10  # seconds
+load_dotenv()  # Load environment variables from .env file
 
-for attempt in range(max_retries):
-    try:
-        embeddings = OpenAIEmbeddings(api_key="your-api-key-here")
-        # Your code to create vector store and other logic here
-        break
-    except openai.error.RateLimitError as e:
-        print(f"Rate limit error: {e}. Retrying in {retry_delay} seconds...")
-        time.sleep(retry_delay)
+api_key = os.getenv("OPENAI_API_KEY")  # Get API key from environment
+if not api_key:
+    raise ValueError("OPENAI_API_KEY not found. Please set it in the .env file.")
 
+embeddings = OpenAIEmbeddings(api_key=api_key)
 
 
 # Load and split documents
@@ -42,8 +37,6 @@ print(qa.run(query))
 
 
 #test
-
-import os
 
 file_path = "example.txt"
 
